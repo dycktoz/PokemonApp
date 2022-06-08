@@ -30,7 +30,7 @@ class DetailsCardBackground extends StatelessWidget {
                   ],
                 ),
               )
-            : Text("espere");
+            : Text("esperaae");
       },
     );
   }
