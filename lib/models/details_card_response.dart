@@ -9,7 +9,9 @@ class DetailsCardResponse {
     this.abilities,
     this.baseExperience,
     this.forms,
+    this.gameIndices,
     this.height,
+    this.heldItems,
     this.id,
     this.isDefault,
     this.locationAreaEncounters,
@@ -18,6 +20,8 @@ class DetailsCardResponse {
     this.pastTypes,
     this.species,
     this.sprites,
+    this.stats,
+    this.types,
     this.weight,
   });
 
@@ -46,12 +50,15 @@ class DetailsCardResponse {
 
   factory DetailsCardResponse.fromMap(Map<String, dynamic> json) =>
       DetailsCardResponse(
-        abilities: json["abilities"] == null
-            ? []
-            : List<Ability>.from(
-                json["abilities"].map((x) => Ability.fromMap(x))),
+        abilities: List<Ability>.from(
+            json["abilities"].map((x) => Ability.fromMap(x))),
         baseExperience: json["base_experience"],
         forms: List<Species>.from(json["forms"].map((x) => Species.fromMap(x))),
+        gameIndices: List<GameIndex>.from(
+            json["game_indices"].map((x) => GameIndex.fromMap(x))),
+        height: json["height"],
+        heldItems: List<dynamic>.from(json["held_items"].map((x) => x)),
+        id: json["id"],
         isDefault: json["is_default"],
         locationAreaEncounters: json["location_area_encounters"],
         name: json["name"],
@@ -59,6 +66,8 @@ class DetailsCardResponse {
         pastTypes: List<dynamic>.from(json["past_types"].map((x) => x)),
         species: Species.fromMap(json["species"]),
         sprites: Sprites.fromMap(json["sprites"]),
+        stats: List<Stat>.from(json["stats"].map((x) => Stat.fromMap(x))),
+        types: List<Type>.from(json["types"].map((x) => Type.fromMap(x))),
         weight: json["weight"],
       );
 

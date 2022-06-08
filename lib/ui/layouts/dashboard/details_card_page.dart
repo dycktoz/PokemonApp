@@ -15,50 +15,225 @@ class _DetailsCardPageState extends State<DetailsCardPage> {
   Widget build(BuildContext context) {
     DetailsCardResponse algo = DetailsCardResponse();
     final eventBloc = BlocProvider.of<DetailCardBloc>(context);
-    return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          tooltip: 'Increment Counter',
-          child: const Icon(Icons.abc_sharp),
-        ),
-        body: DetailsCardBackground(
-          pokename: 'Pokename',
-          child: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ButtonsTop(),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.4,
-                  ),
-                  CardInfoContainer(
-                    child: Column(
+    return BlocBuilder<DetailCardBloc, DetailCardState>(
+      builder: (context, state) {
+        return state.hasapoke
+            ? Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {},
+                  tooltip: 'Increment Counter',
+                  child: const Icon(Icons.abc_sharp),
+                ),
+                body: DetailsCardBackground(
+                  child: SafeArea(
+                    child: Stack(
                       children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
-                          height: MediaQuery.of(context).size.height,
+                        SingleChildScrollView(
                           child: Column(
                             children: [
-                              BlocBuilder<DetailCardBloc, DetailCardState>(
-                                builder: (context, state) {
-                                  return Container(
-                                    child: Text(
-                                        'vzxzzzzzzzzzzzzzzDuis dolor anim aliqua laborum ex veniam nisi mollit dolore.'),
-                                  );
-                                },
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              CardTitle(
+                                abilitie1: state
+                                    .card!.abilities![0].ability!.name
+                                    .toString(),
+                                abilitie2: state.card!.abilities!.length > 1
+                                    ? state.card!.abilities![1].ability!.name
+                                        .toString()
+                                    : "",
+                                baseExperience:
+                                    state.card!.baseExperience.toString(),
+                                imageurl: state.card!.sprites!.frontDefault!,
+                                titulo: state.card!.name!,
+                              ),
+                              CardInfoContainer(
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 5),
+                                  width: MediaQuery.of(context).size.width,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.70,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.35,
+                                          child: Image.network(
+                                            state.card!.sprites!.frontShiny!
+                                                .toString(),
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.25,
+                                            fit: BoxFit.cover,
+                                            filterQuality: FilterQuality.high,
+                                          )),
+                                      Container(
+                                        padding: EdgeInsets.only(bottom: 40),
+                                        child: Text(
+                                          'InfoPokemon',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Text(
+                                                'Fuerza :',
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.35,
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        state.card!.weight
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Text(
+                                                        'Habilidades: ',
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Text(
+                                                        state.card!.stats![1]
+                                                            .stat!.name,
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Text(
+                                                        state.card!.stats![2]
+                                                            .stat!.name,
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Text(
+                                                        state.card!.stats![3]
+                                                            .stat!.name,
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Text(
+                                                        state.card!.stats![4]
+                                                            .stat!.name,
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Text(
+                                                        state.card!.stats![5]
+                                                            .stat!.name,
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ],
+                                                  )),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text(
+                                                'Back Pokemon',
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.35,
+                                                  child: Image.network(
+                                                    state.card!.sprites!
+                                                        .backDefault!
+                                                        .toString(),
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.25,
+                                                    fit: BoxFit.cover,
+                                                    filterQuality:
+                                                        FilterQuality.high,
+                                                  )),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               )
                             ],
                           ),
-                        )
+                        ),
+                        ButtonsTop(),
                       ],
                     ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ));
+                  ),
+                ))
+            : Scaffold(
+                body: Center(
+                  child: Text("cargando..."),
+                ),
+              );
+      },
+    );
+  }
+}
+
+class CardInfoPokemon extends StatelessWidget {
+  const CardInfoPokemon({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
 
@@ -86,7 +261,7 @@ class ButtonsTop extends StatelessWidget {
             IconButton(
                 onPressed: () {},
                 icon: Icon(
-                  Icons.heart_broken,
+                  Icons.search,
                   size: 50,
                 ))
           ],

@@ -1,4 +1,3 @@
-import 'package:custom_grid_view/custom_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_app/bloc/detail_card/detail_card_bloc.dart';
@@ -14,6 +13,7 @@ class CardPoke extends StatefulWidget {
 
 class _CardPokeState extends State<CardPoke> {
   List<Result>? results = [];
+  final _controller = ScrollController();
 
   PokemonController pokemonController = PokemonController();
 
@@ -22,13 +22,21 @@ class _CardPokeState extends State<CardPoke> {
     // TODO: implement initState
     super.initState();
     llamarAServicio();
+    _controller.addListener(() {
+      if (_controller.position.atEdge) {
+        bool isTop = _controller.position.pixels == 0;
+        if (isTop) {
+          print('At the top');
+        } else {}
+      }
+    });
   }
 
   llamarAServicio() async {
     PokemonController pokemoncontroller = PokemonController();
-    pokemoncontroller.getPokemonPage(1);
+    pokemoncontroller.getPokemonPage();
 
-    PokemonResponse pokemonResponse = await pokemoncontroller.getPokemonPage(1);
+    PokemonResponse pokemonResponse = await pokemoncontroller.getPokemonPage();
     results = pokemonResponse.results;
     setState(() {});
   }
@@ -52,6 +60,8 @@ class _CardPokeState extends State<CardPoke> {
 
   _drawWidgets() {
     List<SingleCard> cards = [];
+    List<SingleCard> cards1 = [];
+    List<SingleCard> newcards = cards1 + cards;
 
     for (var i = 0; i < results!.length; i++) {
       _getUrlIng(results![i].url);
@@ -72,9 +82,17 @@ class _CardPokeState extends State<CardPoke> {
         children: [
           HomeTitle(),
           Container(
-            height: MediaQuery.of(context).size.height * .75,
+            height: MediaQuery.of(context).size.height * .725,
             margin: EdgeInsets.symmetric(horizontal: 15),
-            child: Expanded(child: CustomGridView(rows: 2, children: cards)),
+            child: Expanded(
+                child: GridView.count(
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 15,
+              controller: _controller,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              crossAxisCount: 2,
+              children: cards,
+            )),
           ),
         ],
       ),
@@ -108,48 +126,57 @@ class SingleCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+            borderRadius: BorderRadius.circular(30),
+            color: Color.fromARGB(150, 92, 179, 26)),
+        child: Stack(
           children: [
-            Container(
-              constraints: BoxConstraints(maxWidth: 100),
-              margin: EdgeInsets.only(left: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    text,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
-                  ),
-                  Text(id)
-                ],
+            Center(
+              child: Expanded(
+                child: Image.network(
+                    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png'),
               ),
             ),
-            Stack(
+            Center(
+              child: Opacity(
+                opacity: 0.1,
+                child: CircleAvatar(
+                  backgroundImage: AssetImage(
+                    'assets/images/pokeball_dark.png',
+                  ),
+                  radius: 50,
+                ),
+              ),
+            ),
+            Column(
               children: [
-                Opacity(
-                  opacity: 0.1,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                  constraints: BoxConstraints(maxWidth: 150),
+                  margin: EdgeInsets.only(left: 10),
                   child: Container(
-                    padding: EdgeInsets.only(top: 80),
-                    width: 50,
-                    child: CircleAvatar(
-                      backgroundColor: color,
-                      backgroundImage: AssetImage(
-                        'assets/images/pokeball_dark.png',
-                      ),
-                      radius: 30,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FittedBox(
+                          child: Text(
+                            text,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        Text(('ID: ' + id),
+                            style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600))
+                      ],
                     ),
                   ),
                 ),
-                Container(
-                  width: 50,
-                  padding: EdgeInsets.only(top: 80),
-                  color: color,
-                ),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -158,11 +185,10 @@ class SingleCard extends StatelessWidget {
 }
 
 void llamarApi(context, path) {
-  print(path);
   final eventBloc = BlocProvider.of<DetailCardBloc>(context);
 
   DetailsCardResponse detailsCardResponse = DetailsCardResponse();
 
   eventBloc.add(SetCard(hasapoke: true, card: detailsCardResponse, url: path));
-  Navigator.pushReplacementNamed(context, 'detailsCard');
+  Navigator.pushNamed(context, 'detailsCard');
 }

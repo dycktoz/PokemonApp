@@ -8,9 +8,9 @@ class PokemonController {
   final baseUrl = 'https://pokeapi.co';
   final client = http.Client();
 
-  Future<PokemonResponse> getPokemonPage(int pageIndex) async {
+  Future<PokemonResponse> getPokemonPage() async {
     final uri =
-        Uri.parse('https://pokeapi.co/api/v2/pokemon?limit=150&offset=100');
+        Uri.parse('https://pokeapi.co/api/v2/pokemon?limit=150&offset=0');
     // final uri = Uri.http(baseUrl, 'api/v2/ability', queryParameters);
     final response = await client.get(uri);
 

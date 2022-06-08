@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poke_app/bloc/login/login_bloc.dart';
 import 'package:poke_app/services/auth_service.dart';
 import 'package:poke_app/ui/consts/input_decorations.dart';
 import 'package:poke_app/ui/widgets/auth_background.dart';
@@ -76,70 +74,66 @@ class LoginForm extends StatelessWidget {
   final passcontroller = TextEditingController(text: '');
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-      return Container(
-        child: Form(
-            autovalidateMode: AutovalidateMode.always,
-            child: Column(
-              children: [
-                TextFormField(
-                    controller: emailcontroller,
-                    validator: (value) {
-                      if (value == null || value.isEmpty)
-                        return 'Nombre obligatorio';
-                      return null;
-                    },
-                    autocorrect: false,
-                    decoration: InputDecorations.authInputDecoration(
-                        hintText: 'Ash Ketchum',
-                        labelText: 'Nombre de usuario',
-                        prefixIcon: Icons.person)),
-                SizedBox(
-                  height: 30,
-                ),
-                TextFormField(
-                    controller: passcontroller,
-                    validator: (value) {
-                      if (value == null || value.isEmpty)
-                        return 'Ingrese su contraseña';
-                      return null;
-                    },
-                    obscureText: true,
-                    autocorrect: false,
-                    decoration: InputDecorations.authInputDecoration(
-                        hintText: '*****',
-                        labelText: 'Contraseña',
-                        prefixIcon: Icons.lock_clock_outlined)),
-                SizedBox(
-                  height: 30,
-                ),
-                MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    disabledColor: Colors.grey,
-                    elevation: 0,
-                    color: Color.fromARGB(255, 57, 160, 93),
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                      child: Text(
-                        'ingresar',
-                        style: TextStyle(color: Colors.white),
-                      ),
+    return Container(
+      child: Form(
+          autovalidateMode: AutovalidateMode.always,
+          child: Column(
+            children: [
+              TextFormField(
+                  controller: emailcontroller,
+                  validator: (value) {
+                    if (value == null || value.isEmpty)
+                      return 'Nombre obligatorio';
+                    return null;
+                  },
+                  autocorrect: false,
+                  decoration: InputDecorations.authInputDecoration(
+                      hintText: 'Ash Ketchum',
+                      labelText: 'Nombre de usuario',
+                      prefixIcon: Icons.person)),
+              SizedBox(
+                height: 30,
+              ),
+              TextFormField(
+                  controller: passcontroller,
+                  validator: (value) {
+                    if (value == null || value.isEmpty)
+                      return 'Ingrese su contraseña';
+                    return null;
+                  },
+                  obscureText: true,
+                  autocorrect: false,
+                  decoration: InputDecorations.authInputDecoration(
+                      hintText: '*****',
+                      labelText: 'Contraseña',
+                      prefixIcon: Icons.lock_clock_outlined)),
+              SizedBox(
+                height: 30,
+              ),
+              MaterialButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  disabledColor: Colors.grey,
+                  elevation: 0,
+                  color: Color.fromARGB(255, 57, 160, 93),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    child: Text(
+                      'ingresar',
+                      style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {
-                      LoginBloc();
-                      callApi(context);
-                    }
-                    /*   BlocProvider.of<LoginBloc>(context, listen: false)
+                  ),
+                  onPressed: () {
+                    callApi(context);
+                  }
+                  /*   BlocProvider.of<LoginBloc>(context, listen: false)
                           .add(LoginSubmited()); */
 
-                    //
-                    )
-              ],
-            )),
-      );
-    });
+                  //
+                  )
+            ],
+          )),
+    );
   }
 
   callApi(BuildContext context) async {

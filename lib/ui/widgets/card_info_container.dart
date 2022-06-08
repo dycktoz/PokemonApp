@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:poke_app/ui/consts/conts_app.dart';
 
 class CardInfoContainer extends StatelessWidget {
   final Widget child;
@@ -9,7 +8,7 @@ class CardInfoContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(5),
       width: double.infinity,
       decoration: _createCard(),
       child: this.child,
@@ -26,17 +25,25 @@ class CardInfoContainer extends StatelessWidget {
 }
 
 class CardTitle extends StatelessWidget {
+  final String baseExperience;
+  final String imageurl;
+  final String abilitie1;
+  final String abilitie2;
   final String titulo;
 
-  const CardTitle({Key? key, required this.titulo}) : super(key: key);
+  const CardTitle(
+      {Key? key,
+      required this.titulo,
+      required this.imageurl,
+      required this.baseExperience,
+      required this.abilitie1,
+      required this.abilitie2})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.14,
-        ),
         Row(
           children: [
             Column(
@@ -61,9 +68,9 @@ class CardTitle extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        ButtonsInfo(texto: 'holi'),
+                        ButtonsInfo(texto: abilitie1),
                         ButtonsInfo(
-                          texto: 'hola',
+                          texto: abilitie2,
                         )
                       ],
                     )),
@@ -71,18 +78,16 @@ class CardTitle extends StatelessWidget {
             ),
             Container(
                 child: ButtonsInfo(
-              texto: 'algo2',
+              texto: ('XP: ' + baseExperience),
             )),
           ],
         ),
-        Container(
-            height: MediaQuery.of(context).size.height * 0.25,
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: Image.asset(
-              ConstsApp.pikachu,
-              height: MediaQuery.of(context).size.height * 0.25,
-              width: MediaQuery.of(context).size.height * 0.5,
-            ))
+        Image.network(
+          imageurl,
+          height: MediaQuery.of(context).size.height * 0.25,
+          fit: BoxFit.cover,
+          filterQuality: FilterQuality.high,
+        )
       ],
     );
   }
@@ -98,7 +103,7 @@ class ButtonsInfo extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         disabledColor: Colors.grey,
         elevation: 0,
-        color: Color.fromARGB(255, 48, 156, 192),
+        color: Color.fromARGB(50, 57, 160, 93),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: Text(

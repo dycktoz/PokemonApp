@@ -9,7 +9,7 @@ class Home_background extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          color: Colors.white38,
+          color: Color.fromARGB(252, 249, 249, 249),
         ),
         Positioned(top: -60, left: 185, child: _PokeBall())
       ],
